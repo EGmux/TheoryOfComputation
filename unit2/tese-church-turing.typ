@@ -396,14 +396,19 @@ first let's identify the constraint for this TM
 
 in other words a L-transition in the beginning of the tape must allow a new tape position that is not the beginning
 
-the following converts a infinite TM to a ordinary recognizer
+and in a normal TM such transition should result in the cursor at the same position and possibility of symbol being overwritten as well
 
-- 1. make the infinite TM multitape, with 2 tapes
-- 2. create a special transition for every state following this form
+to convert an infinite TM to a recognizer do as follows
 
-#math.equation(block:true,
-  $ delta(q_i,q_j,b_u,b_v) =   $
-)
+- move the input one step to the right and mark the initial position with '\#' and the final position with the same marker but with a dot in the top
+
+- whenever a L-transition happens in the position Immediately to the right of the marker do as follows
+
+- copy everything from the right of the marker until the marker with the dot  is hit by the cursor
+
+- paste the copied contents to the left of the marker, add a dot to the marker without a dot and create a marker,without a dot, in the position Immediately to the left of the first copied position
+  - make sure to offset the cursor enough from the marker so to not overwrite it!
+
 
 
 // #math.equation(block: true, $ case(delta, 1) $)
