@@ -328,28 +328,82 @@ turing machine.
     & 2.4 "cursor of" T_b "change state to 2.1\""                                                                                              && \ $,
 )
 
-=== 3.11 Show that a single-tape TM that cannot write on the portion of the tape containing the input string recognize only regular languages.
+=== 3.10 Say that a write-once Turing machine is a single-tape TM that can alter each tape square at most once (including the input portion of the tape). Show that this variant Turing machine model is equivalent to the ordinary Turing machine model.(hint: As a first step, consider the case whereby the Turming machine may alter each tape square at most twice. Use lots of tape.)
 \
 
-suppose the following turing machine where the transition function is as follows
+To prove this we need to show that a write-once TM recognizes the same language as an ordinary TM.
 
-#math.equation(block: true, $ delta_i (q_i, b_i) = (q_j,b_i,T) $)
+the constraint imposed in the question implies the following
 
-where T is either L or R
+#math.equation(block:true,
+  $ delta_"wo" (q_i,b_u) = (q_j,b_v,T) "and" delta_"wo" (q_i,b_u) != (q_j, b_w,T) forall w != v  $
+)
 
-now consider a sequence of transitions, L/R, that eventually hit a $q_"accept",q_"reject"$ state
+we need a way that would allow rewriting a square multiple times if needed, note that is the position that is constraining us, but we could copy the symbol and paste it
 
-use the following mapping to convert the TM to a Finite automata, $A$
+now let's consider a transition function for the ordinary TM
 
-- $q_"start"$ is the same
+#math.equation(block:true,
+  $ delta (q_i,b_u) = (q_j,b_v,T) $
+)
 
-- $q_"accept"$ and $q_"reject"$ is the same
+where T is a R,L,S- transition
 
-- convert the $bracket.b$ symbol to be a $q_"accept"$ state in $A$
+💡   S-transition means don't move the cursor
 
-- the $Sigma$ is the same
+let's consider a single tape position after a sequence of configurations
 
-- for the delta function do as follows
+#math.equation(block:true,
+  $ bracket.b "ab0"  q_j  "def" bracket.b && \
+  bracket.b "ab"  q_r  "1def" bracket.b && \ 
+  bracket.b "ab2"  q_j  "def" bracket.b && \ $
+)
 
-#math.equation(block: true, $ case(delta, 1) $)
+note that for 0,1,2 the position is the same
 
+then to get equivalent behavior in the writing only TM all we have to do for any modified symbol is as follows
+
+-1 when resuming/starting make sure to move every string one position to the right and place a mark, '\#' in the starting position.
+
+-2 for every modified symbol that is not a mark, put a dot in the top of the position
+
+-3 if an extra modification is required , that is the symbol with a dot will be overwritten, do as follows, pause the main loop
+
+  -3.1 move the cursor back to the closest mark, copy everything to the right of the mark until a $bracket.b$ is found
+
+  -3.2 now go back to 1 
+
+-4 if cursors hits $q_"accept"$ or $q_"reject"$ stop the computation
+
+=== 3.11 A Turing machine with doubly infinite tape is similar to an ordinary Turing machine, but its tape is infinte to the left as well as to the rigmt. The tape is intially filled with blanks except for the portion that contains the input. Computation is defined as usual except tha the head never encounters an end to the tape as sit moves leftward. Show that this type of Turing machine recognizes the class of Turing-recognizable languages.
+\
+
+We need to show that the infinte TM is equivalent to a recognizer TM
+to prove that we need to revise what it means for a TM to be a recognizer
+it means that the machine might not halt for every input.
+
+we now show that such infinite TM may not halt for every input and as such is a recognizer TM as well
+
+we know that a enumerator TM can be used to classify a language as Turing recognizable as such we could create an enumerator for the infinite TM.
+
+and if that is possible it must mean such infinite TM is a recognizer according to the theorem that every enumerator TM is equivalent to a recognizer TM.
+
+first let's identify the constraint for this TM
+
+#math.equation(block:true,
+  $ delta_"q0" (q_i,b_u) = (q_j,b_v,L) "where " q_0 "is the first tape position" $
+)
+
+in other words a L-transition in the beginning of the tape must allow a new tape position that is not the beginning
+
+the following converts a infinite TM to a ordinary recognizer
+
+- 1. make the infinite TM multitape, with 2 tapes
+- 2. create a special transition for every state following this form
+
+#math.equation(block:true,
+  $ delta(q_i,q_j,b_u,b_v) =   $
+)
+
+
+// #math.equation(block: true, $ case(delta, 1) $)
