@@ -409,6 +409,28 @@ to convert an infinite TM to a recognizer do as follows
 - paste the copied contents to the left of the marker, add a dot to the marker without a dot and create a marker,without a dot, in the position Immediately to the left of the first copied position
   - make sure to offset the cursor enough from the marker so to not overwrite it!
 
+=== 3.12 A Turing machine with left reset is similar to an ordinary Turing machine, but the transition function has the form
+\
+
+#math.equation(block:true,
+  $ delta: Q times Gamma -> Q times Gamma times {R, "RESET"} $
+)
+
+*If *$delta(q,a) = (r,b,"RESET")$*, when  the machine is in state q reading an a, the machine's head jumps to the left-hand end of the tape after it writes b on the tape and enters state r. Note that these machines do not have the usual ability to move the head one symbol left. Show that Turing machines with left reset recognize the classes of Turing-recognizable languages.* 
+
+
+we need to convert a L-reset to a normal recognizer, we'll do as follows.
+
+let's first identify the constraint
+
+the machine can't move 1 head left as a normal turing machine, we need to build that feature with this machine
+
+the modification is as follows
+
+for each transition function of the form 
+
+
+
 
 
 // #math.equation(block: true, $ case(delta, 1) $)
