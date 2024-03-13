@@ -299,3 +299,45 @@ thus it must be the case that is decidable in polynomial time. ⬚
 to H. Let *$"ISO" = {angle.l G,H angle.r | G "and" H "are isomorphic graphs"}$*.
 Show that *$"ISO" in "NP"$*
 
+#math.equation(block:true,
+  $ M &= "\"On input" angle.l G,H angle.r "where G,H are graphs" && \
+    & 1. "Non deterministically select a permutation of G, call it p" \ 
+    & 2. "Exchange H nodes with the permutation nodes"  && \
+    & 3. "Check if edges are the same in both"  && \
+    & 4. "Accept if they are, reject otherwise"  && \ 
+    $
+)
+
+step 1 takes $O(1)$ time, for each branch,
+step 2 takes $O(|G_"nodes"|)$ ,
+step 3 takes *$O(|G_"nodes"| dot |H_"nodes"|)$* and last step takes *$O(1)$*
+
+thus final time complexity is polynomial and decided by a NDTM, thus ISO is an NP problem.
+
+=== 7.13 Let *$"MODEXP" = {angle.l a,b,c,p angle.r | a,b,c, "and" p "are positive binary integers such that " a^b equiv c (mod p)} $*. 
+\
+*Show that MODEXP *$in P$*. (Note that the most obvious algorithm doesn't run in poly time. Hint: try it first where b is power of 2.)*
+
+
+#math.equation(block:true,
+  $ M &= "On input" angle.l a,b,c,p angle.r "where a,b,c,p each is a positive binary number" && \
+    & 1. "Compute " a mod p, "store it as x" \
+    & 2. "For i=0 to " |b| "in binary"  && \ 
+    & " "2.1. "If " b_i "is 1"  && \ 
+    & " " " "2.1.2. "update value of y as " y x mod p  && \ 
+    & " "2.2. "update x" "as" x equiv x^2 mod p  && \ 
+    & 3. "if " x = c "accept, otherwise reject\""  && \ 
+    $
+)
+
+Step 1 takes *$O(1)$*, step 2 takes *$O(|b|)$* , step 2.1 takes *$O(1)$*, step 2.1.2 takes *$O(1)$* and last step takes *$O(1)$*
+thus is a polynomial time algorithm.
+
+
+=== 7.14 Show that if $P = "NP"$, then every language $A in P$, except $A = "empty"$ and $A = Sigma^*$, is NP-complete.
+
+1. Suppose that $P = "NP"$. \
+2. We now prove that *$"SAT" lt.eq_p "empty"$* is a false statement and due to that *$"empty"$* can't be NP-complete
+3. Note that *$"empty"$* has 0 cardinality there's no mapping possible that allows us to partition the accepting strings and rejected strings, as such this reduction is impossible
+4. We now prove that *$"SAT"^* lt.eq_p Sigma^*$* is a false statement
+
